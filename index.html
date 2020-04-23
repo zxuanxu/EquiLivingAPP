@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- CSS Imports -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.css" integrity="sha256-YR4HrDE479EpYZgeTkQfgVJq08+277UXxMLbi/YP69o=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css' rel='stylesheet' />
+  </head>
+  <body>
+
+    <div class="wrapper">
+      <!-- Sidebar  -->
+      <nav id="sidebar">
+      <div class="sidebar-header">
+          <h3>EquiLiving</h3>
+          <h6>for Louisville, KY</h6>
+      </div>
+
+      <ul class="list-unstyled components">
+          <li id="list-1" class='active'>
+              <a href="#" onclick="showAbout()">About</a>
+          </li>
+          <li id="list-2">
+              <a href="#" onclick="showScenario()">Scenario</a>
+          </li>
+          <li id="list-3">
+              <a href="#" onclick="showDetainedInfo()">Detailed Info</a>
+          </li>
+      </ul>
+
+      <ul class="list-unstyled CTAs">
+          <li>
+              <a href="https://www.divvybikes.com/" class="web">Markdown</a>
+          </li>
+          <li>
+              <a href="https://data.cityofchicago.org/Transportation/Divvy-Bicycle-Stations/bbyy-e7gq" class="source">Data Sources</a>
+          </li>
+      </ul>
+  </nav>
+    <!-- Page Content  -->
+    <div id="content">
+      <button type="button" id="sidebarCollapse" class="btn btn-light">
+          <i class="fas fa-align-left"></i>
+          <span></span>
+        </button>
+        <div id="content-1" style='display:block;'>
+          <div id='main-title'>About the Website</div>
+          <br>
+          <div id='intro-content'>
+            The website will help identify neighborhoods at high risk of displacement and try to help the local government and NPOs to leverage their resources and finances when investing in these neighborhoods.
+            <br>
+            <br>
+            To identify displacement, this website works to show you the predicted home sale price of the city in the future.
+            Choose the year you are interested in and see the predicted results.
+            You can also define your own scenario for the city's future and see the predicted results based on what you anticipate.
+            <br>
+            <br>
+            Also, click specific areas to see detailed information of that area.
+          </div>
+          </div>
+          <div id="content-2" style='display:none;'>
+            <div id='main-title'>Choose your scenario in the future</div>
+            <br>
+            <div id='intro-content'>
+              <br>
+                You can define the demographic profile you anticipate for the year you want to explore, compared to that in 2018.
+                </div>
+                <br>
+                <!-- Slider -->
+                <div class="slidecontainer">
+                  <input type="range" min="2020" max="2028" value="2024" step="1" class="slider" id="myRange-1">
+                  <br>
+                  <label for="myRange-1">
+                    Year to look at:
+                    <span id="range-1">2024</span>
+                  </label>
+                </div>
+                <br>
+                <!-- Slider -->
+                <div class="slidecontainer">
+                  <input type="range" min="-10" max="10" value="0" step="5" class="slider" id="myRange-2">
+                  <br>
+                  <label for="myRange-2">
+                    # of Permit Activity Change(%):
+                    <span id="range-2">0</span>
+                  </label>
+                </div>
+                <br>
+                <!-- Slider -->
+                <div class="slidecontainer">
+                  <input type="range" min="-10" max="10" value="0" step="5" class="slider" id="myRange-3">
+                  <br>
+                  <label for="myRange-3">
+                    Homeownership Rate Change(%):
+                    <span id="range-3">0</span>
+                  </label>
+                </div>
+                <br>
+                <div class="typologyResult">
+                  The average home sale price in
+                  <span id="range-4">2024</span>
+                   is
+                  <span id="number">0</span>
+                  with
+                  <br>
+                  <span id="range-5">0</span>% of permit activity change
+                  <br>
+                  <span id="range-6">0</span>% of homeownership change.
+              </div>
+              <button type="button" id="button-show" onclick="showResult()">Show Results</button>
+              </div>
+            <div id="content-3" style='display:none;'>
+              <div id='main-title'>Choose an area to look in details</div>
+              <br>
+              <div id='intro-content'>
+                <br>
+                  You can narrow down the areas using these filters below.
+                  </div>
+                  <br>
+              <!-- Selector -->
+              <div class="dropdowncontainer">
+              <label for="markets">Choose a housing market:</label>
+              <select id="markets">
+                <option value="downtown">Downtown</option>
+                <option value="northeast core">Northeast Core</option>
+                <option value="northwest core">Northwest Core</option>
+                <option value="east core">East Core</option>
+                <option value="west core">West Core</option>
+                <option value="university">University</option>
+                <option value="southwest core">Southwest Core</option>
+                <option value="southeast core">Southeast Core</option>
+              </select>
+            </div>
+              <br>
+              <!-- Text Input -->
+              <div class="inputcontainer">
+              <label for="zips">Or enter a ZIP code:</label>
+              <input type="number" id="zips" name="ZIP Code">
+              <br>
+            </div>
+              <!-- Selector -->
+              <div class="checkboxcontainer">
+                <div>Only look at areas with existing AFTF projects:</div>
+                <input type="checkbox" id="projects" name="projects"
+                       unchecked>
+              </div>
+              </div>
+            </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="myModalLabel">Detailed Information</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Census Tract GEOID</th>
+                  <th scope="col" id='geoid'></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Housing Market Area</th>
+                  <td id='market'></td>
+                </tr>
+                <tr>
+                  <th scope="row">Median Income($)</th>
+                  <td id='medinc'></td>
+                </tr>
+                <tr>
+                  <th scope="row">Percent of White Population</th>
+                  <td id='pctwhite'></td>
+                </tr>
+                <tr>
+                  <th scope="row">Predicted Home Sale Price($)</th>
+                  <td id='price'></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- Legend -->
+    <!-- <div class='legend'>
+      <div class='legend-title'>Annual Bike-share Trip Counts, 2018</div>
+      <div class='legend-scale'>
+        <ul class='legend-labels'>
+          <li><span style='background:#fef0d9;'></span>0 - 10</li>
+          <li><span style='background:#fdcc8a;'></span>150</li>
+          <li><span style='background:#fc8d59;'></span>850</li>
+          <li><span style='background:#e34a33;'></span>2500</li>
+          <li><span style='background:#b30000;'></span>19420</li>
+        </ul>
+      </div>
+      </div> -->
+    <!-- Map -->
+    <div id="map"></div>
+    <!-- Javascript Imports -->
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.js" integrity="sha256-6BZRSENq3kxI4YYBDqJ23xg0r1GwTHEpvp3okdaIqBw=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore.js" integrity="sha256-O4179En8zabOlPYBNvGp8cF0uh0vnSZpW4Q6Ul1h+8c=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <!-- Bootstrap framwork js code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="js/setup.js"></script>
+    <script src="js/main.js"></script>
+    </body>
+</html>
