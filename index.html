@@ -24,7 +24,7 @@
               <a href="#" onclick="showAbout()">About</a>
           </li>
           <li id="list-2">
-              <a href="#" onclick="showScenario()">Scenario</a>
+              <a href="#" onclick="showIndex()">Housing Market Indexes</a>
           </li>
           <li id="list-3">
               <a href="#" onclick="showDetainedInfo()">Detailed Info</a>
@@ -35,9 +35,6 @@
           <li>
               <a href="https://www.divvybikes.com/" class="web">Markdown</a>
           </li>
-          <li>
-              <a href="https://data.cityofchicago.org/Transportation/Divvy-Bicycle-Stations/bbyy-e7gq" class="source">Data Sources</a>
-          </li>
       </ul>
   </nav>
     <!-- Page Content  -->
@@ -47,106 +44,62 @@
           <span></span>
         </button>
         <div id="content-1" style='display:block;'>
-          <div id='main-title'>About the Website</div>
+          <div id='main-title'>About the website</div>
           <br>
           <div id='intro-content'>
-            The website will help identify neighborhoods at high risk of displacement and try to help the local government and NPOs to leverage their resources and finances when investing in these neighborhoods.
+            The website will help identify neighborhoods at high risk of displacement and help the Affordable Housing Trust Fund (AHTF) committee to
+            better allocate its funding sources in the neighborhoods need them most.
             <br>
             <br>
-            To identify displacement, this website works to show you the predicted home sale price of the city in the future.
-            Choose the year you are interested in and see the predicted results.
-            You can also define your own scenario for the city's future and see the predicted results based on what you anticipate.
+            To identify displacement, this website works to show you three housing market indexes about Louisville:
+            Initial Price Index, Price Change Index, Affordable Housing Development Poential Index.
+            You can explore more about these indexs in the Housing Market Index page.
             <br>
             <br>
-            Also, click specific areas to see detailed information of that area.
+            In the Detailed Info page, you can look at the existing AFTF projects in details.
           </div>
           </div>
           <div id="content-2" style='display:none;'>
-            <div id='main-title'>Choose your scenario in the future</div>
+            <div id='main-title'>Explore the housing indexs</div>
             <br>
             <div id='intro-content'>
-              <br>
-                You can define the demographic profile you anticipate for the year you want to explore, compared to that in 2018.
+                You can explore the housing market of Louisville from three different perspectives:
+                Initial Price Index, Price Change Index, and Affordable Housing Development Poential Index.
+                <br>
+                <br>
+                Initial price index represents the home sale price level in 2018.
+                Price change index indicates the change level of home sale price in 5 years.
+                Affordable housing development potential index shows the potential for new affordable housing projects
+                in the future. All indexes are scaled from 0 to 10.
                 </div>
                 <br>
-                <!-- Slider -->
-                <div class="slidecontainer">
-                  <input type="range" min="2020" max="2028" value="2024" step="1" class="slider" id="myRange-1">
-                  <br>
-                  <label for="myRange-1">
-                    Year to look at:
-                    <span id="range-1">2024</span>
-                  </label>
-                </div>
+                <div>Map the following index:</div>
                 <br>
-                <!-- Slider -->
-                <div class="slidecontainer">
-                  <input type="range" min="-10" max="10" value="0" step="5" class="slider" id="myRange-2">
-                  <br>
-                  <label for="myRange-2">
-                    # of Permit Activity Change(%):
-                    <span id="range-2">0</span>
-                  </label>
-                </div>
-                <br>
-                <!-- Slider -->
-                <div class="slidecontainer">
-                  <input type="range" min="-10" max="10" value="0" step="5" class="slider" id="myRange-3">
-                  <br>
-                  <label for="myRange-3">
-                    Homeownership Rate Change(%):
-                    <span id="range-3">0</span>
-                  </label>
-                </div>
-                <br>
-                <div class="typologyResult">
-                  The average home sale price in
-                  <span id="range-4">2024</span>
-                   is
-                  <span id="number">0</span>
-                  with
-                  <br>
-                  <span id="range-5">0</span>% of permit activity change
-                  <br>
-                  <span id="range-6">0</span>% of homeownership change.
-              </div>
-              <button type="button" id="button-show" onclick="showResult()">Show Results</button>
+                <label class="radio-container">AHTF Project Potential Index
+                  <input type="radio" checked="checked" name="radio" id='radio1'>
+                  <span class="checkmark"></span>
+                </label>
+                <label class="radio-container">Initial Price Index
+                  <input type="radio" name="radio" id="radio2">
+                  <span class="checkmark"></span>
+                </label>
+                <label class="radio-container">Price Change Index
+                  <input type="radio" name="radio" id="radio3">
+                  <span class="checkmark"></span>
+                </label>
+
               </div>
             <div id="content-3" style='display:none;'>
-              <div id='main-title'>Choose an area to look in details</div>
+              <div id='main-title'>Look at existing AHTF projects</div>
               <br>
               <div id='intro-content'>
                 <br>
-                  You can narrow down the areas using these filters below.
-                  </div>
-                  <br>
-              <!-- Selector -->
-              <div class="dropdowncontainer">
-              <label for="markets">Choose a housing market:</label>
-              <select id="markets">
-                <option value="downtown">Downtown</option>
-                <option value="northeast core">Northeast Core</option>
-                <option value="northwest core">Northwest Core</option>
-                <option value="east core">East Core</option>
-                <option value="west core">West Core</option>
-                <option value="university">University</option>
-                <option value="southwest core">Southwest Core</option>
-                <option value="southeast core">Southeast Core</option>
-              </select>
-            </div>
-              <br>
-              <!-- Text Input -->
-              <div class="inputcontainer">
-              <label for="zips">Or enter a ZIP code:</label>
-              <input type="number" id="zips" name="ZIP Code">
-              <br>
-            </div>
-              <!-- Selector -->
-              <div class="checkboxcontainer">
-                <div>Only look at areas with existing AFTF projects:</div>
-                <input type="checkbox" id="projects" name="projects"
-                       unchecked>
+                Click any project to explore its detailed address, unit number,
+                built year, and the home sale price trend of the housing market
+                it is in.
               </div>
+              <br>
+
               </div>
             </div>
     </div>
@@ -155,7 +108,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="myModalLabel">Detailed Information</h5>
+            <h5 class="modal-title" id="myModalLabel">Housing Market Area in Louisville</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -164,26 +117,34 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th scope="col">Census Tract GEOID</th>
-                  <th scope="col" id='geoid'></th>
+                  <th scope="col">Name</th>
+                  <th scope="col" id='hma'></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row">Housing Market Area</th>
-                  <td id='market'></td>
+                  <th scope="row">Initial Price Index (0-10)</th>
+                  <td id='initial-price-ind'></td>
                 </tr>
                 <tr>
-                  <th scope="row">Median Income($)</th>
-                  <td id='medinc'></td>
+                  <th scope="row">Price Change Index (0-10)</th>
+                  <td id='price-change-ind'></td>
                 </tr>
                 <tr>
-                  <th scope="row">Percent of White Population</th>
-                  <td id='pctwhite'></td>
+                  <th scope="row">Potential Index (0-10)</th>
+                  <td id='potential'></td>
                 </tr>
                 <tr>
-                  <th scope="row">Predicted Home Sale Price($)</th>
-                  <td id='price'></td>
+                  <th scope="row">Avg Home Sale Price in 2018</th>
+                  <td id='initial-price'></td>
+                </tr>
+                <tr>
+                  <th scope="row">Avg Home Sale Price in 2023</th>
+                  <td id='pred-price'></td>
+                </tr>
+                <tr>
+                  <th scope="row">Change of Home Sale Price</th>
+                  <td id='price-change'></td>
                 </tr>
               </tbody>
             </table>
@@ -194,23 +155,68 @@
       </div>
     </div>
   </div>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="myModalLabel">Existing AHTF Project</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Address</th>
+                <th scope="col" id='address'></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Built Year</th>
+                <td id='year'></td>
+              </tr>
+              <tr>
+                <th scope="row">Number of Units</th>
+                <td id='units'></td>
+              </tr>
+            </tbody>
+          </table>
+          <div id="chart1">Home Sale Price Trend of:
+            <span id="housing-market-show"></span>
+            , 2000-2023
+            <canvas id="myChart" width="200" height="200"></canvas>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
     <!-- Legend -->
-    <!-- <div class='legend'>
-      <div class='legend-title'>Annual Bike-share Trip Counts, 2018</div>
+    <div class='legend'>
+      <div class='legend-title'>
+        <span id="legend-title-show">Potential Index</span>
+      </div>
       <div class='legend-scale'>
         <ul class='legend-labels'>
-          <li><span style='background:#fef0d9;'></span>0 - 10</li>
-          <li><span style='background:#fdcc8a;'></span>150</li>
-          <li><span style='background:#fc8d59;'></span>850</li>
-          <li><span style='background:#e34a33;'></span>2500</li>
-          <li><span style='background:#b30000;'></span>19420</li>
+          <li><span style='background:#EAF46E;'></span>2</li>
+          <li><span style='background:#83CE7B;'></span>4</li>
+          <li><span style='background:#3AA083;'></span>6</li>
+          <li><span style='background:#266E75;'></span>8</li>
+          <li><span style='background:#2D3F50;'></span>10</li>
         </ul>
       </div>
-      </div> -->
+      </div>
     <!-- Map -->
     <div id="map"></div>
     <!-- Javascript Imports -->
+    <script src='https://unpkg.com/@turf/turf/turf.min.js'></script>
     <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.js" integrity="sha256-6BZRSENq3kxI4YYBDqJ23xg0r1GwTHEpvp3okdaIqBw=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore.js" integrity="sha256-O4179En8zabOlPYBNvGp8cF0uh0vnSZpW4Q6Ul1h+8c=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
