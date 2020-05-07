@@ -188,6 +188,7 @@ var showAbout = () => {
   }
   $('#content-2').hide();
   $('#content-3').hide();
+  $('#legendIcon').hide();
   $('#list-1').toggleClass('active');
   $('#list-2').removeClass('active');
   $('#list-3').removeClass('active');
@@ -205,6 +206,7 @@ var showIndex = () => {
 
   $('#content-1').hide();
   $('#content-3').hide();
+  $('#legendIcon').hide();
   $('#list-2').toggleClass('active');
   $('#list-1').removeClass('active');
   $('#list-3').removeClass('active');
@@ -223,6 +225,7 @@ var showDetainedInfo = () => {
   readPointsAjax();
   $('#content-1').hide();
   $('#content-2').hide();
+  $('#legendIcon').show();
   $('#list-3').toggleClass('active');
   $('#list-1').removeClass('active');
   $('#list-2').removeClass('active');

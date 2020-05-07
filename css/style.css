@@ -55,6 +55,35 @@ body {
     color: #777;
     }
 
+.legend-points {
+      position: absolute;;
+      right: 0px;
+      top: 80px;
+      z-index: 2000;
+      margin: 10px;
+}
+
+.legend-points .legend-title {
+    text-align: right;
+    font-weight: bold;
+    font-size: 90%;
+    color: #2D3F50;
+    }
+
+  .legend-points .legend-icon{
+    margin: 0;
+    padding: 0;
+    display: block;
+    float: right;
+    width: 50px;
+    margin-bottom: 6px;
+    text-align: right;
+    }
+
+  .legend-points a {
+    color: #777;
+    }
+
 .wrapper {
     display: flex;
     align-items: stretch;
