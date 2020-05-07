@@ -293,9 +293,12 @@ var labels = ['2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2
 '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019','2020', '2021', '2022', '2023'];
 
 var chart = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(chart);
 
 function createChart(){
-  var myChart = new Chart(chart, {
+  //clear canvas
+  myChart.destroy();
+  myChart = new Chart(chart, {
       type: 'line',
       data: {
           labels: labels,
