@@ -7,7 +7,7 @@ body {
 #map {
     position: absolute;
     right: 0px;
-    left: 600px;
+    left: 580px;
     height: 100%;
     top: 0;
 }
@@ -22,11 +22,11 @@ body {
 }
 
 .legend .legend-title {
-    text-align: left;
+    text-align: right;
     margin-bottom: 8px;
     font-weight: bold;
     font-size: 90%;
-    color: white;
+    color: #2D3F50;
     }
   .legend .legend-scale ul {
     margin: 0;
@@ -39,10 +39,10 @@ body {
     float: left;
     width: 50px;
     margin-bottom: 6px;
-    text-align: center;
+    text-align: right;
     font-size: 80%;
     list-style: none;
-    color: white;
+    color: #2D3F50;
     }
   .legend ul.legend-labels li span {
     display: block;
@@ -53,30 +53,6 @@ body {
 
   .legend a {
     color: #777;
-    }
-
-    .slidecontainer {
-      width: 100%; /* Width of the outside container */
-      z-index: 2000;
-    }
-
-    /* The slider itself */
-    .slider {
-      -webkit-appearance: none;
-      width: 100%;
-      height: 15px;
-      border-radius: 5px;
-      background: #fff;
-      outline: none;
-      opacity: 0.7;
-      -webkit-transition: .2s;
-      transition: opacity .2s;
-    }
-
-
-    /* Mouse-over effects */
-    .slider:hover {
-      opacity: 1; /* Fully shown on mouse-over */
     }
 
 .wrapper {
@@ -90,7 +66,7 @@ body {
     max-width: 250px;
     background: #2D3F50;
     color: #EFF1E6;
-    transition: all 0.3s;
+    transition: all 0.2s;
 }
 
 #sidebar.active {
@@ -100,6 +76,7 @@ body {
 }
 
 #sidebar.active .sidebar-header h3,
+#sidebar.active .sidebar-header h6,
 #sidebar.active .CTAs {
     display: none;
 }
@@ -187,6 +164,10 @@ a[data-toggle="collapse"] {
     transform: translateY(-50%);
 }
 
+#sidebarCollapse span {
+    display: none;
+}
+
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
@@ -236,152 +217,80 @@ a.source:hover {
 #main-title {
   font-weight: bold;
   font-size: 18px;
-
+  margin: 5px;
+  padding-top: 5px;
 }
 
 #intro-content {
   font-size:14px;
 }
 
-.typologyResult {
-  font-size: 16px;
-  padding: 10px;
+.hma-labels {
+  background-color: transparent;
+  border: transparent;
+  box-shadow: none;
+  color: white;
+  }
+
+/* The radio button container */
+.radio-container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
-/*Parameters for sliders*/
-.slider {
-  -webkit-appearance: none;  /* Override default CSS styles */
-  appearance: none;
-  width: 100%; /* Full-width */
-  height: 10px; /* Specified height */
-  background: #d3d3d3; /* Grey background */
-  outline: none; /* Remove outline */
-  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
-}
-
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  background: #EAF46E;
+/* Hide the browser's default radio button */
+.radio-container input {
+  position: absolute;
+  opacity: 0;
   cursor: pointer;
 }
 
-.slider::-moz-range-thumb {
-  width: 25px;
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
   height: 25px;
+  width: 25px;
+  background-color: #eee;
   border-radius: 50%;
-  background: #EAF46E;
-  cursor: pointer;
 }
 
-#range-1 {
-  color: #EFF1E6;
-  font-weight: bold;
+/* On mouse-over, add a grey background color */
+.radio-container:hover input ~ .checkmark {
+  background-color: #ccc;
 }
 
-#range-2 {
-  color: #EFF1E6;
-  font-weight: bold;
+/* When the radio button is checked, add a blue background */
+.radio-container input:checked ~ .checkmark {
+  background-color: #2196F3;
 }
 
-#range-3 {
-  color: #EFF1E6;
-  font-weight: bold;
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
 }
 
-#range-4 {
-  color: #EFF1E6;
-  font-weight: bold;
+/* Show the indicator (dot/circle) when checked */
+.radio-container input:checked ~ .checkmark:after {
+  display: block;
 }
 
-#range-5 {
-  color: #EFF1E6;
-  font-weight: bold;
-}
-
-#range-6 {
-  color: #EFF1E6;
-  font-weight: bold;
-}
-
-
-#number {
-  color: #EFF1E6;
-  font-weight: bold;
-}
-
-#button-show {
-  display: flex;
-  margin: 0 auto;
-}
-
-#markets {
-  display: flex;
-  margin: 0 auto;
-}
-
-#zips {
-  display: flex;
-  margin: 0 auto;
-}
-
-#projects {
-  display: flex;
-  margin: 0 auto;
-}
-
-/* ---------------------------------------------------
-    MEDIAQUERIES
------------------------------------------------------ */
-
-@media (max-width: 768px) {
-    #sidebar {
-        min-width: 80px;
-        max-width: 80px;
-        text-align: center;
-        margin-left: -80px !important;
-    }
-    .dropdown-toggle::after {
-        top: auto;
-        bottom: 10px;
-        right: 50%;
-        -webkit-transform: translateX(50%);
-        -ms-transform: translateX(50%);
-        transform: translateX(50%);
-    }
-    #sidebar.active {
-        margin-left: 0 !important;
-    }
-    #sidebar .sidebar-header h3,
-    #sidebar .CTAs {
-        display: none;
-    }
-    #sidebar .sidebar-header strong {
-        display: block;
-    }
-    #sidebar ul li a {
-        padding: 20px 10px;
-    }
-    #sidebar ul li a span {
-        font-size: 0.85em;
-    }
-    #sidebar ul li a i {
-        margin-right: 0;
-        display: block;
-    }
-    #sidebar ul ul a {
-        padding: 10px !important;
-    }
-    #sidebar ul li a i {
-        font-size: 1.3em;
-    }
-    #sidebar {
-        margin-left: 0;
-    }
-    #sidebarCollapse span {
-        display: none;
-    }
+/* Style the indicator (dot/circle) */
+.radio-container .checkmark:after {
+ 	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
 }
