@@ -230,6 +230,7 @@ var showDetainedInfo = () => {
   $('#list-1').removeClass('active');
   $('#list-2').removeClass('active');
   currentSlide = 2;
+  removeAHTF();
   removeHMA();
   addDataHMA();
 };
