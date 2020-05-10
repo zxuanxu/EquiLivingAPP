@@ -8,104 +8,203 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css' rel='stylesheet' />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
   </head>
   <body>
 
-    <div class="wrapper">
       <!-- Sidebar  -->
-      <nav id="sidebar">
-      <div class="sidebar-header">
-          <h3>EquiLiving</h3>
-          <h6>for Louisville, KY</h6>
-      </div>
+      <div id="sidebar">
+          <div class="sidebar-header">
+            <h3>EquiLiving</h3>
+            <h6>for Louisville, KY</h6>
+          </div>
 
-      <ul class="list-unstyled components">
-          <li id="list-1" class='active'>
-              <a href="#" onclick="showAbout()">About</a>
-          </li>
-          <li id="list-2">
-              <a href="#" onclick="showIndex()">Housing Market Indexes</a>
-          </li>
-          <li id="list-3">
-              <a href="#" onclick="showDetainedInfo()">Detailed Info</a>
-          </li>
-      </ul>
+          <ul class="list-unstyled components">
+              <li id="list-2" >
+                  <a href="#" onclick="showIndex()">Neighborhood Explore</a>
+              </li>
+              <li id="list-3">
+                  <a href="#" onclick="showDetainedInfo()">AHTF Projects Explore</a>
+              </li>
+          </ul>
 
-      <ul class="list-unstyled CTAs">
-          <li>
-              <a href="https://www.divvybikes.com/" class="web">Markdown</a>
-          </li>
-      </ul>
-  </nav>
+          <ul class="list-unstyled CTAs">
+              <li>
+                <a data-toggle="modal" href="#myModalHome" class="help">Help</a>
+              </li>
+              <li>
+                  <a href="https://www.divvybikes.com/" class="web">R Markdown</a>
+              </li>
+              <li>
+                  <a href="https://pennmusa.github.io/MUSA_801.io/" class="homepage">MUSA Practicum Homepage</a>
+              </li>
+          </ul>
+        </div>
     <!-- Page Content  -->
-    <div id="content">
-      <button type="button" id="sidebarCollapse" class="btn btn-light">
-          <i class="fas fa-align-left"></i>
-          <span></span>
-        </button>
-        <div id="content-1" style='display:block;'>
-          <div id='main-title'>About the website</div>
-          <br>
-          <div id='intro-content'>
-            The website will help identify neighborhoods at high risk of displacement and help the Affordable Housing Trust Fund (AHTF) committee to
-            better allocate its funding sources in the neighborhoods need them most.
-            <br>
-            <br>
-            To identify displacement, this website works to show you three housing market indexes about Louisville:
-            Initial Price Index, Price Change Index, Affordable Housing Development Poential Index.
-            You can explore more about these indexs in the Housing Market Index page.
-            <br>
-            <br>
-            In the Detailed Info page, you can look at the existing AFTF projects in details.
-          </div>
-          </div>
-          <div id="content-2" style='display:none;'>
-            <div id='main-title'>Explore the housing indexs</div>
-            <br>
-            <div id='intro-content'>
-                You can explore the housing market of Louisville from three different perspectives:
-                Initial Price Index, Price Change Index, and Affordable Housing Development Poential Index.
-                <br>
-                <br>
-                Initial price index represents the home sale price level in 2018.
-                Price change index indicates the change level of home sale price in 5 years.
-                Affordable housing development potential index shows the potential for new affordable housing projects
-                in the future. All indexes are scaled from 0 to 10.
-                <br>
-                <br>
-                Click any area to explore it in details.
-                </div>
-                <br>
-                <div>Map the following index:</div>
-                <br>
-                <label class="radio-container">AHTF Project Potential Index
-                  <input type="radio" checked="checked" name="radio" id='radio1'>
-                  <span class="checkmark"></span>
-                </label>
-                <label class="radio-container">Initial Price Index
-                  <input type="radio" name="radio" id="radio2">
-                  <span class="checkmark"></span>
-                </label>
-                <label class="radio-container">Price Change Index
-                  <input type="radio" name="radio" id="radio3">
-                  <span class="checkmark"></span>
-                </label>
-
-              </div>
-            <div id="content-3" style='display:none;'>
-              <div id='main-title'>Look at existing AHTF projects</div>
-              <br>
-              <div id='intro-content'>
-                <br>
-                Click any project to explore its detailed address, unit number,
-                built year, and the home sale price trend of the housing market
-                it is in.
-              </div>
-              <br>
-
-              </div>
-            </div>
+    <div id="content" style="margin-left:300px;">
+      <!-- Menu Button -->
+      <button type="button" class="btn btn-primary" onclick="openNav()" id="menuButton">Menu</button>
+      <!-- Radio Button -->
+      <div id="radioButtons" style='display:none;'>
+        <label class="radio-container">Show AHTF Potential Score
+          <input type="radio" checked="checked" name="radio" id='radio1'>
+          <span class="checkmark"></span>
+        </label>
+        <label class="radio-container">Show Initial Home Sale Price in 2018
+          <input type="radio" name="radio" id="radio2">
+          <span class="checkmark"></span>
+        </label>
+        <label class="radio-container">Show Change of Home Sale Price from 2018 to 2023
+          <input type="radio" name="radio" id="radio3">
+          <span class="checkmark"></span>
+        </label>
     </div>
+        <!-- Legend -->
+        <div class='legend' id="potential-legend">
+          <div class='legend-title'>
+            <span id="legend-title-show">AHTF Potential Score</span>
+          </div>
+          <div class='legend-scale'>
+            <ul class='legend-labels'>
+              <li><span></span>0</li>
+              <li><span style='background:#EAF46E;'></span>2</li>
+              <li><span style='background:#83CE7B;'></span>4</li>
+              <li><span style='background:#3AA083;'></span>6</li>
+              <li><span style='background:#266E75;'></span>8</li>
+              <li><span style='background:#2D3F50;'></span>10</li>
+            </ul>
+          </div>
+          </div>
+          <!-- Legend -->
+          <div class='legend' id="initial-legend" style='display:none;'>
+            <div class='legend-title'>
+              <span id="legend-title-show">Initial Home Sale Price in 2018</span>
+            </div>
+            <div class='legend-scale'>
+              <ul class='legend-labels'>
+                <li><span></span>90K</li>
+                <li><span style='background:#EAF46E;'></span>140K</li>
+                <li><span style='background:#83CE7B;'></span>220K</li>
+                <li><span style='background:#3AA083;'></span>190K</li>
+                <li><span style='background:#266E75;'></span>320K</li>
+                <li><span style='background:#2D3F50;'></span>440K</li>
+              </ul>
+            </div>
+            </div>
+            <!-- Legend -->
+            <div class='legend' id="change-legend" style='display:none;'>
+              <div class='legend-title'>
+                <span id="legend-title-show">Change of Home Sale Price from 2018 to 2023</span>
+              </div>
+              <div class='legend-scale'>
+                <ul class='legend-labels'>
+                  <li><span></span>-8%</li>
+                  <li><span style='background:#EAF46E;'></span>18%</li>
+                  <li><span style='background:#83CE7B;'></span>22%</li>
+                  <li><span style='background:#3AA083;'></span>24%</li>
+                  <li><span style='background:#266E75;'></span>26%</li>
+                  <li><span style='background:#2D3F50;'></span>36%</li>
+                </ul>
+              </div>
+              </div>
+          <!-- Legend -->
+          <div class='legend-points' id='legendIcon' style='display:none;'>
+            <div class='legend-title'>Existing AHTF Projects
+            </div>
+            <div class='legend-icon'>
+              <img src='icon/house.png' style="margin:auto; width:40px;display:block">
+            </div>
+            </div>
+        <!-- Map -->
+        <div id="map"></div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModalExplore2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="myModalLabel">AHTF Projects Explore</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            In the AHTF Projects Explore page, you can look at all the existing AFTF projects in Louisville.
+            <br>
+            Click any project to explore its detailed address, total number of unit, and built year
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModalExplore1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="myModalLabel">Neighborhoods Explore</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            In the Neighborhoods Explore page, you can explore the initial home sale price in 2018, change of home sale price from 2018 to 2023,
+            and the AHTF Potential Score of each neighborhood in Louisville.
+            <br>
+            Click any area to explore it in detail.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModalHome" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="myModalLabel">About the website</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            The website, EquiLiving, visualizes the home sale price predictions for neighborhoods in Louisville, KY.
+            By predicting the future housing market, EquiLiving will help the Affordable Housing Trust Fund (AHTF) committee to make better decisions
+            of allocating its fundings in neighborhoods that need them most.
+            <br>
+            <br>
+            How to use the website:
+            <ul>
+              <li>
+            The home page visualizes the AHTF Potential Score, developed by EquiLiving, which evaluates each neighborhood's potential to develop new
+            AHTF projects. Scaling from 0 to 10, higher score means that the cost of devloment is low now (low initial home sale price) and the benefit
+            of AHTF project will be great in the future (dramatic increase of home sale price).
+          </li>
+          <br>
+            <li>
+            In the Neighborhoods Explore page, you can explore the initial home sale price in 2018, change of home sale price from 2018 to 2023,
+            and the AHTF Potential Score of each neighborhood in Louisville.
+            <br>
+            * Click a specific neighborhood that you are interested in and see detailed information about it.
+          </li>
+          <br>
+          <li>
+            In the AHTF Projects Explore page, you can look at all the existing AFTF projects in Louisville.
+            <br>
+            * Click a specific project to explore its address, total number of units, and built year.
+          </li>
+        </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -126,15 +225,7 @@
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row">Initial Price Index (0-10)</th>
-                  <td id='initial-price-ind'></td>
-                </tr>
-                <tr>
-                  <th scope="row">Price Change Index (0-10)</th>
-                  <td id='price-change-ind'></td>
-                </tr>
-                <tr>
-                  <th scope="row">Potential Index (0-10)</th>
+                  <th scope="row">AHTF Potential Score (0-10)</th>
                   <td id='potential'></td>
                 </tr>
                 <tr>
@@ -151,6 +242,11 @@
                 </tr>
               </tbody>
             </table>
+            <div id="chart1">Home Sale Price Trend of:
+              <span id="housing-market-show"></span>
+              , 2000-2023
+              <canvas id="myChart" width="200" height="200"></canvas>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -187,11 +283,6 @@
               </tr>
             </tbody>
           </table>
-          <div id="chart1">Home Sale Price Trend of:
-            <span id="housing-market-show"></span>
-            , 2000-2023
-            <canvas id="myChart" width="200" height="200"></canvas>
-          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -199,31 +290,6 @@
     </div>
   </div>
 </div>
-    <!-- Legend -->
-    <div class='legend'>
-      <div class='legend-title'>
-        <span id="legend-title-show">Potential Index</span>
-      </div>
-      <div class='legend-scale'>
-        <ul class='legend-labels'>
-          <li><span style='background:#EAF46E;'></span>2</li>
-          <li><span style='background:#83CE7B;'></span>4</li>
-          <li><span style='background:#3AA083;'></span>6</li>
-          <li><span style='background:#266E75;'></span>8</li>
-          <li><span style='background:#2D3F50;'></span>10</li>
-        </ul>
-      </div>
-      </div>
-      <!-- Legend -->
-      <div class='legend-points' id='legendIcon' style='display:none;'>
-        <div class='legend-title'>Existing AHTF Projects
-        </div>
-        <div class='legend-icon'>
-          <img src='icon/house.png' style="margin:auto; width:40px;display:block">
-        </div>
-        </div>
-    <!-- Map -->
-    <div id="map"></div>
     <!-- Javascript Imports -->
     <script src='https://unpkg.com/@turf/turf/turf.min.js'></script>
     <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js"></script>

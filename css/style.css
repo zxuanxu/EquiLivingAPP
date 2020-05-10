@@ -1,15 +1,24 @@
+/* use */
 body {
-    padding: 0;
-    overflow: hidden;
-    font-family: Roboto Slab !important;
+    margin:0;
+    padding:0;
+    font-family: 'Roboto Slab', serif !important;
+}
+
+html, body, #map{
+    height:100%;
+    margin: 0px;
 }
 
 #map {
     position: absolute;
-    right: 0px;
-    left: 580px;
-    height: 100%;
     top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width:100%;
+    height:100%;
+    z-index: 1;
 }
 
 /* legend */
@@ -84,69 +93,31 @@ body {
     color: #777;
     }
 
-.wrapper {
-    display: flex;
-    align-items: stretch;
-    width: 600px;
-}
 
 #sidebar {
-    min-width: 250px;
-    max-width: 250px;
-    background: #2D3F50;
-    color: #EFF1E6;
-    transition: all 0.2s;
-}
-
-#sidebar.active {
-    min-width: 80px;
-    max-width: 80px;
-    text-align: center;
-}
-
-#sidebar.active .sidebar-header h3,
-#sidebar.active .sidebar-header h6,
-#sidebar.active .CTAs {
-    display: none;
-}
-
-#sidebar.active .sidebar-header strong {
-    display: block;
+  height: 100%;
+  width: 300px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  background: #2D3F50;
+  color: #EFF1E6;
+  transition: all 0.3s;
 }
 
 #sidebar ul li a {
     text-align: left;
 }
 
-#sidebar.active ul li a {
-    padding: 20px 10px;
-    text-align: center;
-    font-size: 0.85em;
-}
-
-#sidebar.active ul li a i {
-    margin-right: 0;
-    display: block;
-    font-size: 1.8em;
-    margin-bottom: 5px;
-}
-
-#sidebar.active ul ul a {
-    padding: 10px !important;
-}
-
-#sidebar.active .dropdown-toggle::after {
-    top: auto;
-    bottom: 10px;
-    right: 50%;
-    -webkit-transform: translateX(50%);
-    -ms-transform: translateX(50%);
-    transform: translateX(50%);
-}
-
 #sidebar .sidebar-header {
+    position: relative;
     padding: 20px;
     background: #2D3F50;
+    top: 0;
 }
 
 #sidebar .sidebar-header strong {
@@ -181,20 +152,23 @@ a[aria-expanded="true"] {
     background: #EAF46E;
 }
 
-a[data-toggle="collapse"] {
-    position: relative;
+#menuButton {
+  position: absolute;
+  z-index: 999;
+  background-color: #2D3F50;
+  border-color: #2D3F50;
 }
 
-#dropdown-toggle::after {
-    display: block;
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
+#radioButtons {
+  position: relative;
+  z-index: 999;
+  top: 100px;
+  right: 0;
+  color: #2D3F50;
 }
 
-#sidebarCollapse span {
-    display: none;
+#myModalHome {
+  font-size: 16px;
 }
 
 ul ul a {
@@ -206,6 +180,8 @@ ul ul a {
 
 ul.CTAs {
     padding: 20px;
+    position: absolute;
+    bottom: 0;
 }
 
 ul.CTAs a {
@@ -221,25 +197,28 @@ a.web:hover {
     text-align: center !important;
 }
 
-a.source,
-a.source:hover {
+a.homepage,
+a.homepage:hover {
   text-align: center !important;
 }
 
+a.help,
+a.help:hover {
+  text-align: center !important;
+}
 
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
 
 #content {
-    width:100%;
-    padding: 20px;
-    min-height: 100vh;
-    transition: all 0.3s;
-    background-color: #2D3F50;
-    overflow-y: scroll;
-    color:#EFF1E6;
-    border:20px;
+  position:relative;
+  transition: margin-left .5s;
+  padding: 16px;
+  height:100%;
+  z-index: 1;
+  margin-left: 300px;
+  border: 20px;
 }
 
 

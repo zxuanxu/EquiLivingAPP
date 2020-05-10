@@ -4,8 +4,8 @@ var ahtf;
 var ahtfLayer;
 
 /*Functions*/
-//set up the colors for stations with different annual trip counts
-function getColor(d) {
+//set up the colors
+function getColorPotential(d) {
     return d > 8 ? "#2D3F50" :
            d > 6  ? "#266E75" :
            d > 4  ? "#3AA083" :
@@ -13,9 +13,25 @@ function getColor(d) {
                     "#EAF46E" ;
 }
 
+function getColorInitial(d) {
+    return d > 320000 ? "#2D3F50" :
+           d > 290000  ? "#266E75" :
+           d > 220000  ? "#3AA083" :
+           d > 140000  ? "#83CE7B" :
+                    "#EAF46E" ;
+}
+
+function getColorChange(d) {
+    return d > 26 ? "#2D3F50" :
+           d > 24  ? "#266E75" :
+           d > 22  ? "#3AA083" :
+           d > 18  ? "#83CE7B" :
+                    "#EAF46E" ;
+}
+
 function stylePotential(feature) {
     return {
-        fillColor: getColor(feature.properties.potentialIndex),
+        fillColor: getColorPotential(feature.properties.potentialIndex),
         weight: 2,
         opacity: 1,
         color: 'white',
@@ -26,7 +42,7 @@ function stylePotential(feature) {
 
 function styleInitial(feature) {
     return {
-        fillColor: getColor(feature.properties.initialPriceIndex),
+        fillColor: getColorInitial(feature.properties['2018']),
         weight: 2,
         opacity: 1,
         color: 'white',
@@ -37,7 +53,7 @@ function styleInitial(feature) {
 
 function styleChange(feature) {
     return {
-        fillColor: getColor(feature.properties.priceChangeIndex),
+        fillColor: getColorChange(feature.properties.Price_Change),
         weight: 2,
         opacity: 1,
         color: 'white',
@@ -47,21 +63,34 @@ function styleChange(feature) {
 }
 
 //set up the toggle menu button function
-$(document).ready(function () {
+function openNav() {
 
-    $('#sidebarCollapse').on('click', function () {
-        $('#sidebar').toggleClass('active');
-    });
+  map.invalidateSize();
+  var x = document.getElementById("content");
+  //if sidebar is open
+  if (x.style.marginLeft == "300px") {
+    //change left margin of content
+    x.style.marginLeft= "0";
+  } else {
+    //change left margin of content
+    x.style.marginLeft= "300px";
+  }
+}
 
-});
 
 /*Data URLs*/
 var affordableHousingPoints = "https://gist.githubusercontent.com/zxuanxu/b6efa02d50c8ec4005a3c253ae7c0413/raw/ef8568963847ce9220513a648900e51375a4c5be/AHTFpoints.geojson";
 var hmaPolygons = "https://gist.githubusercontent.com/zxuanxu/cf8a781bf088ed1b3bcf75deb86bba3d/raw/cc61cd219f7a0b383406f05108fe277318435a6e/hmaPred.geojson";
 
+/*Open Modal on Load*/
+$(window).on('load',function(){
+    $('#myModalHome').modal('show');
+});
+
 /*STEP-1 MAP POLYGONS*/
 //get all the housing market areas and map them
 var hmaData = [];
+var pointSelected;
 
 
  $.ajax({
@@ -76,16 +105,16 @@ var hmaData = [];
          layer.bindTooltip(feature.properties.H_Mkt_A)}
      }).addTo(map);
       hmaLayer.on('click', function(e){
+        pointSelected = e.layer.feature.properties.H_Mkt_A;
+        getDataSelected();
           map.setView(e.latlng, 13);
           $('#myModal').modal('show');
           $('#hma').text(e.layer.feature.properties.H_Mkt_A);
-          $('#initial-price-ind').text(e.layer.feature.properties.initialPriceIndex);
-          $('#price-change-ind').text(e.layer.feature.properties.priceChangeIndex);
           $('#potential').text(e.layer.feature.properties.potentialIndex);
           $('#initial-price').text("$" + e.layer.feature.properties["2018"].toLocaleString(undefined, {maximumFractionDigits:0}));
           $('#pred-price').text("$" + e.layer.feature.properties["2023"].toLocaleString(undefined, {maximumFractionDigits:0}));
           $('#price-change').text(e.layer.feature.properties.Price_Change.toLocaleString(undefined, {maximumFractionDigits:2}) + "%");
-
+          createChart();
       });
      }});
 
@@ -105,14 +134,16 @@ hmaLayer = L.geoJson(hma,{
 var addDataHMA = () => {
   hmaLayer.addTo(map);
   hmaLayer.on('click', function(e){
+    pointSelected = e.layer.feature.properties.H_Mkt_A;
+    getDataSelected();
      map.setView(e.latlng, 13);
      $('#myModal').modal('show');
      $('#hma').text(e.layer.feature.properties.H_Mkt_A);
-     $('#price-change-ind').text(e.layer.feature.properties.priceChangeIndex);
      $('#potential').text(e.layer.feature.properties.potentialIndex);
      $('#initial-price').text("$" + e.layer.feature.properties["2018"].toLocaleString(undefined, {maximumFractionDigits:0}));
      $('#pred-price').text("$" + e.layer.feature.properties["2023"].toLocaleString(undefined, {maximumFractionDigits:0}));
      $('#price-change').text(e.layer.feature.properties.Price_Change.toLocaleString(undefined, {maximumFractionDigits:2}) + "%");
+     createChart();
    });
  };
 
@@ -126,7 +157,6 @@ var smallIcon = new L.Icon({
  });
 
 //get all the AHTF projects and map them
-var pointSelected;
 function readPointsAjax() {
   $.ajax({
     url: affordableHousingPoints,
@@ -139,8 +169,6 @@ function readPointsAjax() {
         }
       }).addTo(map);
        ahtfLayer.on('click', function(e){
-         pointSelected = e.layer.feature.properties.H_Mkt_A;
-         getDataSelected();
          map.setView(e.latlng, 13);
          $('#myModal1').modal('show');
          $('#units').text(e.layer.feature.properties.Amount);
@@ -168,47 +196,25 @@ ahtfLayer = L.geoJson(ahtf,{
 var addDataAHTF = () => {
   ahtfLayer.addTo(map);
   ahtfLayer.on('click', function(e){
-    pointSelected = e.layer.feature.properties.H_Mkt_A;
     map.setView(e.latlng, 13);
-    getDataSelected();
     $('#myModal1').modal('show');
     $('#units').text(e.layer.feature.properties.Amount);
     $('#year').text(e.layer.feature.properties.Year);
     $('#address').text(e.layer.feature.properties.Address);
-    createChart();
   });
 };
 
+//add legend control
+
+
 /*STEP3: SET UP PAGES*/
 //set up the functions of each button in the sidebar
-var showAbout = () => {
-  var x = document.getElementById("content-1");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  }
-  $('#content-2').hide();
-  $('#content-3').hide();
-  $('#legendIcon').hide();
-  $('#list-1').toggleClass('active');
-  $('#list-2').removeClass('active');
-  $('#list-3').removeClass('active');
-  currentSlide = 0;
-  removeAHTF();
-  removeHMA();
-  addDataHMA();
-};
-
 var showIndex = () => {
-  var x = document.getElementById("content-2");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  }
 
-  $('#content-1').hide();
-  $('#content-3').hide();
+  $('#myModalExplore1').modal('show');
+  $('#radioButtons').show();
   $('#legendIcon').hide();
   $('#list-2').toggleClass('active');
-  $('#list-1').removeClass('active');
   $('#list-3').removeClass('active');
   currentSlide = 1;
   removeAHTF();
@@ -217,17 +223,13 @@ var showIndex = () => {
 };
 
 var showDetainedInfo = () => {
-  var x = document.getElementById("content-3");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  }
+
+  $('#myModalExplore2').modal('show');
 
   readPointsAjax();
-  $('#content-1').hide();
-  $('#content-2').hide();
+  $('#radioButtons').hide();
   $('#legendIcon').show();
   $('#list-3').toggleClass('active');
-  $('#list-1').removeClass('active');
   $('#list-2').removeClass('active');
   currentSlide = 2;
   removeAHTF();
@@ -236,7 +238,7 @@ var showDetainedInfo = () => {
 };
 
 /*Radio Button Setting*/
-// Radio buttons to let the user choose the index to map
+//Radio buttons to let the user choose the index to map
 assignClickListener("radio1", onRadioClick);
 assignClickListener("radio2", onRadioClick);
 assignClickListener("radio3", onRadioClick);
@@ -252,15 +254,21 @@ function onRadioClick(event) {
   switch (selectedIndex) {
     case "radio1":
       hmaLayer.setStyle(stylePotential);
-      legendTitle.innerHTML = "Potential Index"
+      $('#potential-legend').show();
+      $('#initial-legend').hide();
+      $('#change-legend').hide();
       break;
     case "radio2":
       hmaLayer.setStyle(styleInitial);
-      legendTitle.innerHTML = "Initial Price Index"
+      $('#potential-legend').hide();
+      $('#initial-legend').show();
+      $('#change-legend').hide();
       break;
     case "radio3":
       hmaLayer.setStyle(styleChange);
-      legendTitle.innerHTML = "Price Change Index"
+      $('#potential-legend').hide();
+      $('#initial-legend').hide();
+      $('#change-legend').show();
       break;
   };
 }
@@ -269,7 +277,7 @@ function onRadioClick(event) {
 var legendTitle = document.getElementById("legend-title-show");
 
 /*STEP4: SET UP CHARTS*/
-//get data for point selected
+//get data for area selected
 var chartTitle = document.getElementById("housing-market-show");
 
 var dataSelected;
@@ -293,9 +301,12 @@ var labels = ['2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2
 '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019','2020', '2021', '2022', '2023'];
 
 var chart = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(chart);
 
 function createChart(){
-  var myChart = new Chart(chart, {
+  //clear canvas
+  myChart.destroy();
+  myChart = new Chart(chart, {
       type: 'line',
       data: {
           labels: labels,
@@ -337,136 +348,3 @@ function createChart(){
       }
   });
 }
-
-// var radios = document.getElementsByName('radio');
-//
-// var showIndex = function() {
-//   for (var i = 0; i < radios.length; i++){
-//     if(radios[i].checked){
-//       return i;
-//     }
-//   }
-// };
-
-// var indexToShow = showIndex();
-//
-// for (var i = 0; i < radios.length; i++){
-//   radios[i].addEventListener('change', function(){
-//     remove();
-//     indexToShow = showIndex();
-//     addDataHMA();
-//     console.log(indexToShow);
-//   })
-// };
-
-
-
-/*SLIDER SETTINGS*/
-// //set up the function of the 1st slider
-// var slider1 = document.getElementById("myRange-1");
-// var output1 = document.getElementById("range-1");
-//
-// output1.innerHTML = slider1.value; // Display the default slider value
-//
-// // Update the current slider value (each time you drag the slider handle)
-// slider1.oninput = function() {
-//   output1.innerHTML = this.value;
-// }
-//
-// //set up the function of the 2nd slider
-// var slider2 = document.getElementById("myRange-2");
-// var output2 = document.getElementById("range-2");
-//
-// output2.innerHTML = slider2.value; // Display the default slider value
-//
-// // Update the current slider value (each time you drag the slider handle)
-// slider2.oninput = function() {
-//   output2.innerHTML = this.value;
-// }
-//
-// //set up the function of the 3rd slider
-// var slider3 = document.getElementById("myRange-3");
-// var output3 = document.getElementById("range-3");
-//
-// output3.innerHTML = slider3.value; // Display the default slider value
-//
-// // Update the current slider value (each time you drag the slider handle)
-// slider3.oninput = function() {
-//   output3.innerHTML = this.value;
-// }
-//
-// //set the slider filter
-// var filter = function(feature,layer) {
-//   if(feature.properties.year == slider1.value)
-//     return true;
-// };
-//
-// var filterPlot = function() {
-//        hmaLayer.addTo(map);
-//        hmaLayer.on('click', function(e){
-//                  map.setView(e.latlng, 13);
-//                  $('#myModal').modal('show');
-//                  $('#hma').text(e.layer.feature.properties.H_Mkt_A);
-//                  $('#initial-price').text(e.layer.feature.properties.initialPriceIndex);
-//                  $('#price-change').text(e.layer.feature.properties.priceChangeIndex);
-//                  $('#potential').text(e.layer.feature.properties.potentialIndex);
-//              });
-//      };
-//
-// //Get the range number of slider 1
-// var range1 = document.getElementById("range-4");
-//
-// var getRange1 = function(){
-//   return range1.innerHTML = output1.innerHTML;
-// }
-// //Get the range number of slider 2
-// var range2 = document.getElementById("range-5");
-//
-// var getRange2 = function(){
-//   return range2.innerHTML = output2.innerHTML;
-// }
-// //Get the range number of slider 3
-// var range3 = document.getElementById("range-6");
-//
-// var getRange3 = function(){
-//   return range3.innerHTML = output3.innerHTML;
-// }
-//
-// //Get the average home sale price based on the defined typology
-// var avgHomePrice = function(array){
-//   function plus(a, b) {return a + b; }
-//   return array.reduce(plus) / array.length;
-// }
-//
-//
-//
-// var number = document.getElementById("number");
-// var getNumber = function() {
-//     if (typeof bgLayer !== 'undefined'){
-//       number.innerHTML = `${bgLayer.getLayers().length}`
-//     };
-//   };
-//
-// var showResult = function(){
-//   getNumber();
-// }
-//
-// slider1.addEventListener('input', function () {
-//        remove();
-//        filterPlot();
-//        getRange1();
-//      });
-//
-// slider2.addEventListener('input', function () {
-//         remove();
-//         filterPlot();
-//         getRange2();
-//       });
-//
-// slider3.addEventListener('input', function () {
-//         remove();
-//         filterPlot();
-//         getRange3();
-//       });
-//
-// /*FILTER FUNCTIONS*/
