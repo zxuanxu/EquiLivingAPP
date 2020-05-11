@@ -103,7 +103,6 @@ html, body, #map{
   left: 0;
   overflow-x: hidden;
   transition: 0.5s;
-  /* padding: 20px; */
   background: #2D3F50;
   color: #EFF1E6;
   transition: all 0.3s;
