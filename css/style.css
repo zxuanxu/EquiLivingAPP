@@ -103,7 +103,7 @@ html, body, #map{
   left: 0;
   overflow-x: hidden;
   transition: 0.5s;
-  padding-top: 60px;
+  /* padding: 20px; */
   background: #2D3F50;
   color: #EFF1E6;
   transition: all 0.3s;
@@ -115,9 +115,7 @@ html, body, #map{
 
 #sidebar .sidebar-header {
     position: relative;
-    padding: 20px;
     background: #2D3F50;
-    top: 0;
 }
 
 #sidebar .sidebar-header strong {
@@ -169,6 +167,14 @@ a[aria-expanded="true"] {
 
 #myModalHome {
   font-size: 16px;
+}
+
+#chart2 {
+  text-align: center;
+}
+
+#chart1 {
+  text-align: center;
 }
 
 ul ul a {

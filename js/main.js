@@ -79,7 +79,7 @@ function openNav() {
 
 
 /*Data URLs*/
-var affordableHousingPoints = "https://gist.githubusercontent.com/zxuanxu/b6efa02d50c8ec4005a3c253ae7c0413/raw/ef8568963847ce9220513a648900e51375a4c5be/AHTFpoints.geojson";
+var affordableHousingPoints = "https://gist.githubusercontent.com/zxuanxu/b6efa02d50c8ec4005a3c253ae7c0413/raw/eb10f6ae6bb7703b4a28b74c2edb69bd527377c4/AHTFpoints.geojson";
 var hmaPolygons = "https://gist.githubusercontent.com/zxuanxu/cf8a781bf088ed1b3bcf75deb86bba3d/raw/cc61cd219f7a0b383406f05108fe277318435a6e/hmaPred.geojson";
 
 /*Open Modal on Load*/
@@ -156,6 +156,8 @@ var smallIcon = new L.Icon({
      iconUrl: 'icon/house.png'
  });
 
+var ahtfData = [];
+
 //get all the AHTF projects and map them
 function readPointsAjax() {
   $.ajax({
@@ -166,14 +168,20 @@ function readPointsAjax() {
       ahtfLayer = L.geoJson(ahtf,{
         pointToLayer: function(feature, latlng){
           return L.marker(latlng, {icon: smallIcon})
-        }
+        },
+        onEachFeature: function(feature, layer){
+          ahtfData.push(feature.properties);}
       }).addTo(map);
        ahtfLayer.on('click', function(e){
+         pointSelectedPoint = e.layer.feature.properties.Address;
          map.setView(e.latlng, 13);
+         getDataSelectedPoints();
+         createChart2();
          $('#myModal1').modal('show');
-         $('#units').text(e.layer.feature.properties.Amount);
+         $('#units').text(e.layer.feature.properties.TtlUnts);
          $('#year').text(e.layer.feature.properties.Year);
          $('#address').text(e.layer.feature.properties.Address);
+         $('#dollars').text("$" + (e.layer.feature.properties.Amount * 1000).toLocaleString(undefined, {maximumFractionDigits:0}));
          createChart();
        })
      }
@@ -196,11 +204,15 @@ ahtfLayer = L.geoJson(ahtf,{
 var addDataAHTF = () => {
   ahtfLayer.addTo(map);
   ahtfLayer.on('click', function(e){
+    pointSelectedPoint = e.layer.feature.properties.Address;
     map.setView(e.latlng, 13);
+    getDataSelectedPoints();
+    createChart2();
     $('#myModal1').modal('show');
-    $('#units').text(e.layer.feature.properties.Amount);
+    $('#units').text(e.layer.feature.properties.TtlUnts);
     $('#year').text(e.layer.feature.properties.Year);
     $('#address').text(e.layer.feature.properties.Address);
+    $('#dollars').text("$" + (e.layer.feature.properties.Amount * 1000).toLocaleString(undefined, {maximumFractionDigits:0}));
   });
 };
 
@@ -277,6 +289,7 @@ function onRadioClick(event) {
 var legendTitle = document.getElementById("legend-title-show");
 
 /*STEP4: SET UP CHARTS*/
+//Chart for polygons
 //get data for area selected
 var chartTitle = document.getElementById("housing-market-show");
 
@@ -316,6 +329,76 @@ function createChart(){
               backgroundColor: 'rgba(54, 162, 235, 0.2)',
               pointBackgroundColor: 'rgba(54, 162, 235, 1)',
               borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1.5,
+              pointRadius: 3,
+              pointHoverRadius: 6
+          }]
+      },
+      options: {
+        elements: {
+          point: {
+            pointStyle: 'circle'
+          }
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+                    var label = tooltipItem.yLabel;
+                    label = data.datasets[tooltipItem.datasetIndex].label + ": $" + label.toLocaleString(undefined, {maximumFractionDigits:0});
+                    return label;
+                  }
+                }
+              },
+        scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true,
+                      callback: function(value, index, values) {
+                        return "$" + value.toLocaleString(undefined, {maximumFractionDigits:0});
+                  }
+              }}]
+          }
+      }
+  });
+}
+
+//Chart for points
+//get data for area selected
+var dataSelectedPoints;
+var pointSelectedPoint;
+
+var chartTitle2 = document.getElementById("address-show");
+
+function getDataSelectedPoints(){
+  dataSelectedPoints = [];
+  for (var i = 0; i < ahtfData.length; i++) {
+    if(ahtfData[i].Address == pointSelectedPoint) {
+      for (var j = 2000; j < 2024; j++) {
+        var year = "X" + j.toString();
+        dataSelectedPoints.push(ahtfData[i][year]);
+      }
+      chartTitle2.innerHTML = pointSelectedPoint;
+      break;
+    }
+  }
+}
+
+var chart2 = document.getElementById('myChart2').getContext('2d');
+var myChart2 = new Chart(chart2);
+
+function createChart2(){
+  //clear canvas
+  myChart2.destroy();
+  myChart2 = new Chart(chart2, {
+      type: 'line',
+      data: {
+          labels: labels,
+          datasets: [{
+              label: 'Home Sale Price',
+              data: dataSelectedPoints,
+              backgroundColor: 'rgba(119, 189, 111, 0.2)',
+              pointBackgroundColor: 'rgba(119, 189, 111, 1)',
+              borderColor: 'rgba(119, 189, 111, 1)',
               borderWidth: 1.5,
               pointRadius: 3,
               pointHoverRadius: 6

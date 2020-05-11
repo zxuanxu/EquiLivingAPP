@@ -15,16 +15,19 @@
       <!-- Sidebar  -->
       <div id="sidebar">
           <div class="sidebar-header">
-            <h3>EquiLiving</h3>
-            <h6>for Louisville, KY</h6>
+            <div class='logo-icon'>
+              <img src='icon/logo.png' style="margin:auto; width:300px;display:block">
+            </div>
+            <!-- <h3>EquiLiving</h3>
+            <h6>for Louisville, KY</h6> -->
           </div>
 
           <ul class="list-unstyled components">
               <li id="list-2" >
-                  <a href="#" onclick="showIndex()">Neighborhood Explore</a>
+                  <a href="#" onclick="showIndex()">Neighborhood Explorer</a>
               </li>
               <li id="list-3">
-                  <a href="#" onclick="showDetainedInfo()">AHTF Projects Explore</a>
+                  <a href="#" onclick="showDetainedInfo()">AHTF Projects Explorer</a>
               </li>
           </ul>
 
@@ -123,15 +126,14 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="myModalLabel">AHTF Projects Explore</h5>
+            <h5 class="modal-title" id="myModalLabel">AHTF Projects Explorer</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            In the AHTF Projects Explore page, you can look at all the existing AFTF projects in Louisville.
-            <br>
-            Click any project to explore its detailed address, total number of unit, and built year
+            <p>In the AHTF Projects Explorer page, you can look at all the existing AHTF projects in Louisville.</p>
+            <p style="font-size:14px;">* Click any project to explore its detailed address, total number of unit, and built year.</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -144,16 +146,15 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="myModalLabel">Neighborhoods Explore</h5>
+            <h5 class="modal-title" id="myModalLabel">Neighborhoods Explorer</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            In the Neighborhoods Explore page, you can explore the initial home sale price in 2018, change of home sale price from 2018 to 2023,
-            and the AHTF Potential Score of each neighborhood in Louisville.
-            <br>
-            Click any area to explore it in detail.
+            <p>In the Neighborhoods Explorer page, you can explore the initial home sale price in 2018, change of home sale price from 2018 to 2023,
+            and the AHTF Potential Score of each neighborhood in Louisville.</p>
+            <p style="font-size:14px;">* Click any area to explore it in detail.</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -176,9 +177,9 @@
             By predicting the future housing market, EquiLiving will help the Affordable Housing Trust Fund (AHTF) committee to make better decisions
             of allocating its fundings in neighborhoods that need them most.
             <br>
-            <br>
-            How to use the website:
-            <ul>
+            <p style="font-size:14px;">* For best visualization and display, please use Chrome. </p>
+            <p style="font-weight:bold;">How to use the website:</p>
+            <ul style="font-size:14px;">
               <li>
             The home page visualizes the AHTF Potential Score, developed by EquiLiving, which evaluates each neighborhood's potential to develop new
             AHTF projects. Scaling from 0 to 10, higher score means that the cost of development is low now (low initial home sale price) and the benefit
@@ -186,16 +187,13 @@
           </li>
           <br>
             <li>
-            In the Neighborhoods Explore page, you can explore the initial home sale price in 2018, change of home sale price from 2018 to 2023,
+            In the Neighborhoods Explorer page, you can explore the initial home sale price in 2018, change of home sale price from 2018 to 2023,
             and the AHTF Potential Score of each neighborhood in Louisville.
-            <br>
-            * Click a specific neighborhood that you are interested in and see detailed information about it.
+            <p style="font-size:12px;">* Click a specific neighborhood that you are interested in and see detailed information about it.</p>
           </li>
-          <br>
           <li>
-            In the AHTF Projects Explore page, you can look at all the existing AFTF projects in Louisville.
-            <br>
-            * Click a specific project to explore its address, total number of units, and built year.
+            In the AHTF Projects Explorer page, you can look at all the existing AHTF projects in Louisville.
+            <p style="font-size:12px;">* Click a specific project to explore its address, total number of units, and built year.</p>
           </li>
         </ul>
           </div>
@@ -281,8 +279,16 @@
                 <th scope="row">Number of Units</th>
                 <td id='units'></td>
               </tr>
+              <tr>
+                <th scope="row">Total Dollars Invested</th>
+                <td id='dollars'></td>
+              </tr>
             </tbody>
           </table>
+          <div id="chart2">Home Sale Price Trend within 1/2 Mile of
+            <span id="address-show"></span>, 2000-2023
+            <canvas id="myChart2" width="200" height="200"></canvas>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
